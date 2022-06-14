@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField]
+    private float fireRate = 1f, realoadSpeed = 1.5f, shotSpread = 0f, shotDamage = 1f, shotSpeed = 1f;
 
-    // Update is called once per frame
-    void Update()
+    [SerializeField]
+    private int numAmmo, numProjectiles;
+
+    [SerializeField]
+    private GameObject bulletPrefab;
+
+    public void Shoot()
     {
-        
+        GameObject bulletClone = Instantiate(bulletPrefab, transform.position, transform.rotation);
+        Bullet bulletCloneScript = bulletClone.GetComponent<Bullet>();
+        bulletCloneScript.shotSpeed = shotSpeed;
+        bulletCloneScript.shotDamage = shotDamage;
     }
 }
