@@ -14,6 +14,8 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody2D rb;
 
+    private CameraFollow cameraFollow;
+
     // Jump
     private bool isGrounded = false;
     public float rememberGroundedFor;
@@ -33,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         playerAnimator = GetComponentInChildren<Animator>();
+        cameraFollow = Camera.main.GetComponent<CameraFollow>();
     }
 
     private void OnEnable()
@@ -47,10 +50,19 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        Aim();
         Movement();
         Jump();
         BetterJump();
         CheckIfGrounded();
+    }
+
+    private void Aim()
+    {
+        Vector2 mousePosition = playerControls.Player.Mouse.ReadValue<Vector2>();
+        mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
+        Vector3 mouseOffset = new Vector3(mousePosition.x, mousePosition.y, 0);
+        cameraFollow.offsetMouse = mouseOffset;
     }
 
     private void Movement()
