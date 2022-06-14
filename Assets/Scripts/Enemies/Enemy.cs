@@ -10,9 +10,10 @@ public abstract class Enemy : MonoBehaviour
     public Animator animator;
     protected GameObject player;
     public bool canMoveWhileAttack;
-    protected bool attacking = false, dying = false;
+    protected bool attacking = false, dying = false, alive = true;
     protected Rigidbody2D rb;
 
+    public bool kill = false;
 
     // Start is called before the first frame update
     void Start()
@@ -35,19 +36,38 @@ public abstract class Enemy : MonoBehaviour
                 CheckIfAttack();
             }
         }
+
+        if (kill)
+        {
+            StartCoroutine(Hit(currentHealth));
+        }
     }
 
-    public void ChangeHealth(float modifier)
+    public IEnumerator Hit(float dmg)
     {
-        if(modifier < 0)
+        if (alive)
         {
-            //do hit anim or smth
-            currentHealth -= modifier;
-            if(currentHealth <= 0)
+            currentHealth -= dmg;
+            Debug.Log("enemy health: " + currentHealth);
+            if (currentHealth <= 0)
             {
-                StartCoroutine(StartDeath());
+                StartCoroutine(Die());
             }
+            GetComponentInChildren<SpriteRenderer>().color = new Color(255, 0, 0, .65f);
+            yield return new WaitForSeconds(.15f);
+            GetComponentInChildren<SpriteRenderer>().color = new Color(255, 255, 255, 1);
         }
+    }
+
+    private IEnumerator Die()
+    {
+        dying = true;
+        animator.SetTrigger("Die");
+        this.enabled = false;
+        gameObject.GetComponent<BoxCollider2D>().enabled = false;
+        rb.bodyType = RigidbodyType2D.Static;
+        yield return new WaitForSeconds(5);
+        Destroy(gameObject);
     }
 
     public abstract void Move();

@@ -58,9 +58,9 @@ public class MeleeGroundChase : Enemy
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == "Player")
+        if(collision.gameObject.tag == "Player" && attacking)
         {
-
+            StartCoroutine(collision.GetComponent<PlayerBase>().Hit(damage));
         }
     }
 
