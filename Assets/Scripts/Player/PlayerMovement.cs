@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(PlayerBase))]
 public class PlayerMovement : MonoBehaviour
 {
+    private PlayerBase player;
+
     [SerializeField]
     private float moveSpeed = 10f, jumpForce = 5f;
 
     private Animator playerAnimator;
-
-    private PlayerControls playerControls;
 
     private Rigidbody2D rb;
 
@@ -26,48 +27,25 @@ public class PlayerMovement : MonoBehaviour
     public float fallMultiplier = 2.5f;
     public float lowJumpMultiplier = 2f;
 
-    private void Awake()
-    {
-        playerControls = new PlayerControls();
-    }
-
     void Start()
     {
+        player = PlayerBase.Instance;
         rb = GetComponent<Rigidbody2D>();
         playerAnimator = GetComponentInChildren<Animator>();
         cameraFollow = Camera.main.GetComponent<CameraFollow>();
     }
 
-    private void OnEnable()
-    {
-        playerControls.Enable();
-    }
-
-    private void OnDisable()
-    {
-        playerControls.Disable();
-    }
-
     void Update()
     {
-        Aim();
         Movement();
         Jump();
         BetterJump();
         CheckIfGrounded();
     }
 
-    private void Aim()
-    {
-        Vector2 mousePosition = playerControls.Player.Mouse.ReadValue<Vector2>();
-        mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
-        Vector3 mouseOffset = new Vector3(mousePosition.x, mousePosition.y, 0);
-        cameraFollow.offsetMouse = mouseOffset;
-    }
-
     private void Movement()
     {
-        float moveInput = playerControls.Player.MoveLeftRight.ReadValue<float>();
+        float moveInput = player.playerControls.Player.MoveLeftRight.ReadValue<float>();
 
         rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
 
@@ -88,7 +66,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Jump()
     {
-        if (playerControls.Player.Jump.triggered && (isGrounded || 
+        if (player.playerControls.Player.Jump.triggered && (isGrounded || 
             Time.time - rememberGroundedFor <= lastTimeGrounded))
         {
             playerAnimator.SetTrigger("Jump");
@@ -102,7 +80,7 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity += Vector2.up * Physics2D.gravity * (fallMultiplier - 1) * Time.deltaTime;
         }
-        else if (rb.velocity.y > 0 && playerControls.Player.Jump.phase == InputActionPhase.Waiting)
+        else if (rb.velocity.y > 0 && player.playerControls.Player.Jump.phase == InputActionPhase.Waiting)
         {
             rb.velocity += Vector2.up * Physics2D.gravity * (lowJumpMultiplier - 1) * Time.deltaTime;
         }
