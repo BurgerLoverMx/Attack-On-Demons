@@ -2869,6 +2869,8 @@ GameObject:
   - component: {fileID: 1792370887}
   - component: {fileID: 1792370885}
   - component: {fileID: 1792370884}
+  - component: {fileID: 1792370888}
+  - component: {fileID: 1792370889}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -2962,6 +2964,31 @@ MonoBehaviour:
     m_Bits: 8
   fallMultiplier: 2.5
   lowJumpMultiplier: 2
+--- !u!114 &1792370888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1792370883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bb435f2e827fde419ff40b0a533282d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1792370889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1792370883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04722e51cf9f68640baba58dbe93f96d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weapon: {fileID: 0}
 --- !u!1 &2088507497
 GameObject:
   m_ObjectHideFlags: 0
