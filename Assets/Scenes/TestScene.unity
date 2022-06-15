@@ -2217,14 +2217,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireRate: 1
   reloadSpeed: 3
-  shotSpread: 0
+  shotSpread: 5
   shotDamage: 1
   shotSpeed: 9
-  numAmmo: 5
-  numProjectiles: 1
+  numAmmo: 6
+  numProjectiles: 2
   bulletPrefab: {fileID: 3114009487308266085, guid: 216c0db540a7e0944a47d8f632f40f9a, type: 3}
   bulletSpawnPoint: {fileID: 1906856953}
-  currentAmmo: 0
+  currentAmmo: 6
 --- !u!212 &28460724
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2285,8 +2285,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 28460722}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.8999999, y: -0.08714284, z: 0}
-  m_LocalScale: {x: 0.42, y: 0.42, z: 1}
+  m_LocalPosition: {x: 0.696, y: -0.025, z: 0}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1906856953}
@@ -2305,7 +2305,7 @@ GameObject:
   m_Layer: 6
   m_Name: Gun Pivot
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -2317,8 +2317,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 61781899}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.261, z: 0}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 1}
+  m_LocalPosition: {x: 0, y: -0.112, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 28460725}
@@ -3145,7 +3145,7 @@ GameObject:
   m_Layer: 6
   m_Name: Bullet Spawn Point
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -3157,7 +3157,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1906856952}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.31, y: 0.438, z: 0}
+  m_LocalPosition: {x: 1.27, y: 0.28, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

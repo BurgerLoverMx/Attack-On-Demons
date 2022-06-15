@@ -12,8 +12,6 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField]
     private GameObject weapon;
 
-    private bool shooting = false;
-
     void Start()
     {
         player = PlayerBase.Instance;
@@ -36,15 +34,19 @@ public class PlayerShoot : MonoBehaviour
         float angle = Mathf.Atan2(offset.y, offset.x) * Mathf.Rad2Deg;
         if (mousePosition.x < screenPoint.x)
         {
-            weapon.transform.localScale = new Vector3(weapon.transform.localScale.x, 
-            -Mathf.Abs(weapon.transform.localScale.y), 
-            weapon.transform.localScale.z);
+            weapon.transform.localRotation = Quaternion.Euler(180, 0, 0);
+
+            weapon.transform.localPosition = new Vector3(weapon.transform.localPosition.x,
+             Mathf.Abs(weapon.transform.localPosition.y),
+             weapon.transform.localPosition.z);
         }
         else
         {
-            weapon.transform.localScale = new Vector3(weapon.transform.localScale.x,
-             Mathf.Abs(weapon.transform.localScale.y), 
-             weapon.transform.localScale.z);
+            weapon.transform.localRotation = Quaternion.Euler(0, 0, 0);
+            
+            weapon.transform.localPosition = new Vector3(weapon.transform.localPosition.x,
+             -Mathf.Abs(weapon.transform.localPosition.y),
+             weapon.transform.localPosition.z);
         }
         weapon.transform.parent.rotation = Quaternion.Euler(0f, 0f, angle);
 

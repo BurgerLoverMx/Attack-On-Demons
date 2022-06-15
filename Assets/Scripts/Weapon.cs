@@ -16,12 +16,15 @@ public class Weapon : MonoBehaviour
     [SerializeField]
     private Transform bulletSpawnPoint;
 
+    private Animator animator;
+
     public int currentAmmo;
 
     private float fireRateTime = 0;
 
     void Start()
     {
+        animator = GetComponent<Animator>();
         currentAmmo = numAmmo;
     }
 
@@ -40,14 +43,31 @@ public class Weapon : MonoBehaviour
             return;
         }
 
+        //Even number of projectiles
+        bool evenProjectiles = false;
+        if (numProjectiles % 2 == 0)
+        {
+            evenProjectiles = true;
+        }
+
         for (int i = 0; i < numProjectiles; i++)
         {
             if (currentAmmo == 0)
             {
                 break;
             }
-
-            GameObject bulletClone = Instantiate(bulletPrefab, bulletSpawnPoint.position, transform.rotation * Quaternion.Euler(0, 0, i * shotSpread));
+            
+            int index = i;
+            if (evenProjectiles)
+            {
+                index++;
+            }
+            if (index % 2 == 0 && index != 0)
+            {
+                index = -(index - 1);
+            }
+            Quaternion bulletRotation = Quaternion.Euler(0, 0, index * shotSpread);
+            GameObject bulletClone = Instantiate(bulletPrefab, bulletSpawnPoint.position, transform.rotation * bulletRotation);
             Bullet bulletCloneScript = bulletClone.GetComponent<Bullet>();
             bulletCloneScript.shotSpeed = shotSpeed;
             bulletCloneScript.shotDamage = shotDamage;
@@ -60,12 +80,19 @@ public class Weapon : MonoBehaviour
         {
             StartCoroutine(Reload());
         }
+        /*
+        Buggy
+        else
+        {
+            animator.speed = 1 / fireRate;
+            animator.SetTrigger("Shoot");
+        }*/
     }
 
     private IEnumerator Reload()
     {
-        //Play animation
-        Debug.Log("Reloading");
+        //animator.speed = 1 / reloadSpeed;
+        //animator.SetTrigger("Reload");
         yield return new WaitForSeconds(reloadSpeed);
         currentAmmo = numAmmo;
     }
