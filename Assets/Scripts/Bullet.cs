@@ -11,6 +11,16 @@ public class Bullet : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         rb.velocity = transform.right * shotSpeed;
+        Destroy(this.gameObject, 5);
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.tag == "Enemy")
+        {
+            StartCoroutine(other.gameObject.GetComponent<Enemy>().Hit(shotDamage));
+        }
+        Destroy(this.gameObject);
     }
 
 }

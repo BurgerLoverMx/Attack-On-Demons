@@ -12,6 +12,8 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField]
     private GameObject weapon;
 
+    private bool shooting = false;
+
     void Start()
     {
         player = PlayerBase.Instance;
@@ -56,11 +58,12 @@ public class PlayerShoot : MonoBehaviour
 
     private void Shoot()
     {
-        if (player.playerControls.Player.Shoot.triggered)
-        //Depending on weapon
-        if (weapon != null)
+        if (player.playerControls.Player.Shoot.ReadValue<float>() > 0)
         {
-            weapon.GetComponent<Weapon>().Shoot();
+            if (weapon != null)
+            {
+                weapon.GetComponent<Weapon>().Shoot();
+            }
         }
     }
 }

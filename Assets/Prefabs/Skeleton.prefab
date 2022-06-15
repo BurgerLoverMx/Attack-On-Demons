@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2581454899298691558}
   - component: {fileID: 2581454899298691579}
   m_Layer: 0
-  m_Name: SkeletonSprite
+  m_Name: Skeleton Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -119,9 +119,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.62053955}
   serializedVersion: 2
-  m_Radius: 1.5
+  m_Radius: 0.04712088
 --- !u!1 &2581454899867544158
 GameObject:
   m_ObjectHideFlags: 0
@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 2581454899867544145}
   m_Layer: 0
   m_Name: Skeleton
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -167,11 +167,11 @@ BoxCollider2D:
   m_GameObject: {fileID: 2581454899867544158}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: a5ecaae7bde47044d989978c18f96eb8, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.03593242, y: -0.16711783}
+  m_Offset: {x: -0.03593242, y: -0.2212317}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -182,7 +182,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.7733494, y: 1.7322557}
+  m_Size: {x: 0.7733494, y: 1.624028}
   m_EdgeRadius: 0
 --- !u!50 &2581454899867544144
 Rigidbody2D:
@@ -200,7 +200,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 6200000, guid: a5ecaae7bde47044d989978c18f96eb8, type: 2}
+  m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -219,7 +219,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 2
   maxMovespeed: 5
-  damage: 1
+  damage: 2
   attackRange: 2
   attackAnimTime: 1
   animator: {fileID: 2581454899298691558}
@@ -240,7 +240,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2581454900031991221}
   m_Layer: 0
-  m_Name: CollisionChecker
+  m_Name: Collision Checker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -13,8 +13,6 @@ public abstract class Enemy : MonoBehaviour
     protected bool attacking = false, dying = false, alive = true;
     protected Rigidbody2D rb;
 
-    public bool kill = false;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -35,11 +33,6 @@ public abstract class Enemy : MonoBehaviour
             {
                 CheckIfAttack();
             }
-        }
-
-        if (kill)
-        {
-            StartCoroutine(Hit(currentHealth));
         }
     }
 
