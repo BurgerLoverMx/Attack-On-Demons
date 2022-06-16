@@ -2221,7 +2221,7 @@ MonoBehaviour:
   shotDamage: 1
   shotSpeed: 9
   numAmmo: 6
-  numProjectiles: 2
+  numProjectiles: 1
   bulletPrefab: {fileID: 3114009487308266085, guid: 216c0db540a7e0944a47d8f632f40f9a, type: 3}
   bulletSpawnPoint: {fileID: 1906856953}
   currentAmmo: 6
@@ -3218,6 +3218,10 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2581454899867544145, guid: 586e12da88c10024ab49e271941152ef, type: 3}
+      propertyPath: canMoveWhileAttack
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2581454899867544146, guid: 586e12da88c10024ab49e271941152ef, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -3268,7 +3272,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2581454899867544158, guid: 586e12da88c10024ab49e271941152ef, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []

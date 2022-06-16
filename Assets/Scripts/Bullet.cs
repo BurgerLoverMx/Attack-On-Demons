@@ -14,13 +14,13 @@ public class Bullet : MonoBehaviour
         Destroy(this.gameObject, 5);
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.tag == "Enemy")
         {
-            StartCoroutine(other.gameObject.GetComponent<Enemy>().Hit(shotDamage));
+            other.gameObject.GetComponent<Enemy>().StartCoroutine(other.gameObject.GetComponent<Enemy>().Hit(shotDamage));
         }
-        Destroy(this.gameObject);
+        Destroy(gameObject);
     }
 
 }

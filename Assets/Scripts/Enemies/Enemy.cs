@@ -47,7 +47,7 @@ public abstract class Enemy : MonoBehaviour
                 StartCoroutine(Die());
             }
             GetComponentInChildren<SpriteRenderer>().color = new Color(255, 0, 0, .65f);
-            yield return new WaitForSeconds(.15f);
+            yield return new WaitForSeconds(0.08f);
             GetComponentInChildren<SpriteRenderer>().color = new Color(255, 255, 255, 1);
         }
     }
