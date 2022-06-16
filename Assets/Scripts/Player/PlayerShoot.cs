@@ -54,10 +54,8 @@ public class PlayerShoot : MonoBehaviour
         }
         weapon.transform.parent.rotation = Quaternion.Euler(0f, 0f, angle);
 
-        mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
-
-
         //Move camera towards mouse
+        mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
         Vector3 mouseOffset = new Vector3(mousePosition.x, mousePosition.y, 0);
         cameraFollow.offsetMouse = mouseOffset;
     }
