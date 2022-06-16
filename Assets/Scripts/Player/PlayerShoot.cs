@@ -39,6 +39,8 @@ public class PlayerShoot : MonoBehaviour
             weapon.transform.localPosition = new Vector3(weapon.transform.localPosition.x,
              Mathf.Abs(weapon.transform.localPosition.y),
              weapon.transform.localPosition.z);
+
+            transform.rotation = Quaternion.Euler(0, 180, 0);
         }
         else
         {
@@ -47,6 +49,8 @@ public class PlayerShoot : MonoBehaviour
             weapon.transform.localPosition = new Vector3(weapon.transform.localPosition.x,
              -Mathf.Abs(weapon.transform.localPosition.y),
              weapon.transform.localPosition.z);
+
+            transform.rotation = Quaternion.Euler(0, 0, 0);
         }
         weapon.transform.parent.rotation = Quaternion.Euler(0f, 0f, angle);
 

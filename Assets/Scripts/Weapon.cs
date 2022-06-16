@@ -24,7 +24,7 @@ public class Weapon : MonoBehaviour
 
     void Start()
     {
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
         currentAmmo = numAmmo;
     }
 
@@ -42,6 +42,9 @@ public class Weapon : MonoBehaviour
         {
             return;
         }
+
+        animator.speed = 1 / fireRate;
+        animator.SetTrigger("Shoot");
 
         //Even number of projectiles
         bool evenProjectiles = false;
@@ -80,19 +83,13 @@ public class Weapon : MonoBehaviour
         {
             StartCoroutine(Reload());
         }
-        /*
-        Buggy
-        else
-        {
-            animator.speed = 1 / fireRate;
-            animator.SetTrigger("Shoot");
-        }*/
     }
 
     private IEnumerator Reload()
     {
-        //animator.speed = 1 / reloadSpeed;
-        //animator.SetTrigger("Reload");
+        yield return new WaitForEndOfFrame();
+        animator.speed = 1 / reloadSpeed;
+        animator.SetTrigger("Reload");
         yield return new WaitForSeconds(reloadSpeed);
         currentAmmo = numAmmo;
     }

@@ -49,6 +49,8 @@ public class PlayerMovement : MonoBehaviour
 
         rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
 
+        //TBD
+        /*
         if (moveInput > 0)
         {
             transform.rotation = Quaternion.Euler(0, 0, 0);
@@ -62,6 +64,7 @@ public class PlayerMovement : MonoBehaviour
             playerAnimator.SetBool("Move", true);
         else
             playerAnimator.SetBool("Move", false);
+        */
     }
 
     private void Jump()
