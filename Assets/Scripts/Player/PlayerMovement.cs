@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
     private PlayerBase player;
 
     [SerializeField]
-    private float moveSpeed = 10f, jumpForce = 5f;
+    private float moveSpeed = 10f, jumpForce = 5f, grappleRange = 50, minGrappleSpeed = 5, maxGrappleSpeed = 50, grappleDistanceUntilMaxSpeed = 10;
 
     private Animator playerAnimator;
 
@@ -18,29 +18,100 @@ public class PlayerMovement : MonoBehaviour
     private CameraFollow cameraFollow;
 
     // Jump
-    private bool isGrounded = false;
+    private bool isGrounded = false, grappling = false;
     public float rememberGroundedFor;
     private float lastTimeGrounded;
     public Transform isGroundedChecker;
     public float checkGroundRadius;
     public LayerMask groundLayer;
+    public LayerMask grappleAble;
     public float fallMultiplier = 2.5f;
     public float lowJumpMultiplier = 2f;
+    public Transform grapplePoint;
 
+
+    private Vector3 grappleTargetPos;
     void Start()
     {
         player = PlayerBase.Instance;
         rb = GetComponent<Rigidbody2D>();
         playerAnimator = GetComponentInChildren<Animator>();
         cameraFollow = Camera.main.GetComponent<CameraFollow>();
+        player.playerControls.Player.Grapple.canceled += ctx => StopGrappling();
     }
 
     void Update()
     {
         Movement();
+        CheckIfGrounded();
         Jump();
         BetterJump();
-        CheckIfGrounded();
+        StartGrapple(); 
+    }
+
+    private void FixedUpdate()
+    {
+        if (grappling)
+        {
+            Grappling();
+        }
+    }
+
+
+    private void Grappling()
+    {
+        if(grappleTargetPos != null)
+        {
+            Debug.Log(grappleTargetPos);
+            Debug.Log("target pos: " + grappleTargetPos + ", grapple point: " + grapplePoint.position);
+            Vector2 direction = (grappleTargetPos - grapplePoint.position).normalized;
+
+            Vector3 distance = grappleTargetPos - grapplePoint.position;
+            float sqrLength = distance.sqrMagnitude;
+            sqrLength /= grappleDistanceUntilMaxSpeed;
+            if(sqrLength < 1)
+            {
+                sqrLength = 1;
+            }
+
+            float force = 1 / sqrLength;
+
+            float grappleForce = Mathf.Lerp(minGrappleSpeed, maxGrappleSpeed, force);
+            rb.AddForce(direction * grappleForce, ForceMode2D.Force);
+        }
+        else
+        {
+            Debug.Log("grapple stop");
+            grappling = false;
+        }
+    }
+
+    private void StartGrapple()
+    {
+        if (player.playerControls.Player.Grapple.triggered)
+        {
+            Debug.Log("grapple start");
+            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(player.playerControls.Player.Aim.ReadValue<Vector2>());
+            mousePosition = new Vector3(mousePosition.x, mousePosition.y, 0);
+            Debug.Log("mouse pos: " + mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(grapplePoint.position, (mousePosition - grapplePoint.position).normalized, grappleRange, grappleAble);
+            if (hit.collider != null)
+            {
+                grappling = true;
+                grappleTargetPos = hit.point;
+                Debug.DrawLine(grapplePoint.position, hit.point, Color.green);
+            }
+            else
+            {
+                Debug.DrawRay(grapplePoint.position, Vector2.right, Color.red);
+            }
+        }
+    }
+
+    private void StopGrappling()
+    {
+        Debug.Log("grapple stop");
+        grappling = false;
     }
 
     private void Movement()
@@ -69,6 +140,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Jump()
     {
+        //can jump while grappling?
         if (player.playerControls.Player.Jump.triggered && (isGrounded || 
             Time.time - rememberGroundedFor <= lastTimeGrounded))
         {

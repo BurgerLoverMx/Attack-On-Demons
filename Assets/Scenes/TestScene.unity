@@ -3095,14 +3095,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 10
   jumpForce: 7
+  grappleRange: 50
+  minGrappleSpeed: 20
+  maxGrappleSpeed: 200
+  grappleDistanceUntilMaxSpeed: 20
   rememberGroundedFor: 0.1
   isGroundedChecker: {fileID: 982352672}
   checkGroundRadius: 0.05
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
+  grappleAble:
+    serializedVersion: 2
+    m_Bits: 264
   fallMultiplier: 2.5
   lowJumpMultiplier: 2
+  grapplePoint: {fileID: 1906856953}
 --- !u!114 &1792370888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3271,10 +3279,6 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2581454899867544145, guid: 586e12da88c10024ab49e271941152ef, type: 3}
-      propertyPath: canMoveWhileAttack
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2581454899867544146, guid: 586e12da88c10024ab49e271941152ef, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -3322,10 +3326,6 @@ PrefabInstance:
     - target: {fileID: 2581454899867544158, guid: 586e12da88c10024ab49e271941152ef, type: 3}
       propertyPath: m_Name
       value: Skeleton
-      objectReference: {fileID: 0}
-    - target: {fileID: 2581454899867544158, guid: 586e12da88c10024ab49e271941152ef, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
