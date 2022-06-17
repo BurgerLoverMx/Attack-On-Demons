@@ -27,16 +27,19 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask grappleAble;
     public float fallMultiplier = 2.5f;
     public float lowJumpMultiplier = 2f;
+
+    // Grapple
     public Transform grapplePoint;
-
-
     private Vector3 grappleTargetPos;
+    private LineRenderer grappleLine;
+    
     void Start()
     {
         player = PlayerBase.Instance;
         rb = GetComponent<Rigidbody2D>();
         playerAnimator = GetComponentInChildren<Animator>();
         cameraFollow = Camera.main.GetComponent<CameraFollow>();
+        grappleLine = GetComponent<LineRenderer>();
         player.playerControls.Player.Grapple.canceled += ctx => StopGrappling();
     }
 
@@ -53,7 +56,12 @@ public class PlayerMovement : MonoBehaviour
     {
         if (grappling)
         {
+            grappleLine.enabled = true;
             Grappling();
+        }
+        else
+        {
+            grappleLine.enabled = false;
         }
     }
 
@@ -65,7 +73,7 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log(grappleTargetPos);
             Debug.Log("target pos: " + grappleTargetPos + ", grapple point: " + grapplePoint.position);
             Vector2 direction = (grappleTargetPos - grapplePoint.position).normalized;
-
+            Debug.DrawLine(grapplePoint.position, grappleTargetPos, Color.green, 1);
             Vector3 distance = grappleTargetPos - grapplePoint.position;
             float sqrLength = distance.sqrMagnitude;
             sqrLength /= grappleDistanceUntilMaxSpeed;
@@ -78,6 +86,10 @@ public class PlayerMovement : MonoBehaviour
 
             float grappleForce = Mathf.Lerp(minGrappleSpeed, maxGrappleSpeed, force);
             rb.AddForce(direction * grappleForce, ForceMode2D.Force);
+
+            //Render line
+            grappleLine.SetPosition(0, grapplePoint.position);
+            grappleLine.SetPosition(1, grappleTargetPos);
         }
         else
         {
@@ -99,11 +111,11 @@ public class PlayerMovement : MonoBehaviour
             {
                 grappling = true;
                 grappleTargetPos = hit.point;
-                Debug.DrawLine(grapplePoint.position, hit.point, Color.green);
+                Debug.DrawLine(grapplePoint.position, hit.point, Color.green, 1);
             }
             else
             {
-                Debug.DrawRay(grapplePoint.position, Vector2.right, Color.red);
+                Debug.DrawRay(grapplePoint.position, Vector2.right, Color.red, 1);
             }
         }
     }
