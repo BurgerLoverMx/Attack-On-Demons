@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
     private PlayerBase player;
 
     [SerializeField]
-    private float moveSpeed = 10f, jumpForce = 5f, grappleRange = 50, minGrappleSpeed = 5, maxGrappleSpeed = 50, grappleDistanceUntilMaxSpeed = 10;
+    private float moveSpeed = 10f, jumpForce = 5f, grappleRange = 50, grappleSpeed = 40, grappleDistanceUntilMaxSpeed = 10;
 
     private Animator playerAnimator;
 
@@ -32,11 +32,12 @@ public class PlayerMovement : MonoBehaviour
     public Transform grapplePoint;
     private Vector3 grappleTargetPos;
     private LineRenderer grappleLine;
+    private bool stopGrappling = false;
 
     [SerializeField]
     private float minDistanceToSwapMaterial = 3.0f, multiplierToSwapMaterial = 0.25f, maxVelocity = 20;
 
-    private float initialDistance;
+    private float initialDistance, startTime, length;
 
     [SerializeField]
     private PhysicsMaterial2D[] physicMaterials;
@@ -59,6 +60,16 @@ public class PlayerMovement : MonoBehaviour
         BetterJump();
         StartGrapple();
         CheckVelocity();
+
+        grappleLine.SetPosition(0, grapplePoint.position);
+        if (!grappling && !stopGrappling)
+        {
+            DrawRopeNoWaves();
+        }
+        if (stopGrappling)
+        {
+            PullRopeBack();
+        }
     }
 
 
@@ -81,6 +92,28 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void DrawRopeNoWaves()
+    {
+        float distCovered = ((Time.time - startTime) * grappleSpeed) / length;
+        Vector2 position = Vector2.Lerp(grapplePoint.position, grappleTargetPos, distCovered);
+        grappleLine.SetPosition(1, position);
+        if (!grappling && grappleLine.GetPosition(1).Equals(grappleTargetPos))
+        {
+            grappling = true;
+        }
+    }
+
+    private void PullRopeBack()
+    {
+        float distCovered = ((Time.time - startTime) * grappleSpeed) / length;
+        Vector2 position = Vector2.Lerp(grappleLine.GetPosition(1), grapplePoint.position, distCovered);
+        grappleLine.SetPosition(1, position);
+        if (grappleLine.GetPosition(1).Equals(grapplePoint.position))
+        {
+            this.enabled = false;
+        }
+    }
+
 
     private void Grappling()
     {
@@ -96,7 +129,6 @@ public class PlayerMovement : MonoBehaviour
             {
                 rb.sharedMaterial = physicMaterials[0];
             }
-
             Vector2 direction = (grappleTargetPos - grapplePoint.position).normalized;
             Debug.DrawLine(grapplePoint.position, grappleTargetPos, Color.green, 1);
             float sqrLength = distance.sqrMagnitude;
@@ -105,11 +137,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 sqrLength = 1;
             }
-
-            float force = 1 / sqrLength;
-
-            float grappleForce = Mathf.Lerp(minGrappleSpeed, maxGrappleSpeed, force);
-            rb.AddForce(direction * grappleForce, ForceMode2D.Force);
+            rb.AddForce(direction * grappleSpeed, ForceMode2D.Force);
 
             //Render line
             grappleLine.SetPosition(0, grapplePoint.position);
@@ -117,8 +145,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            Debug.Log("grapple stop");
-            grappling = false;
+            StopGrappling();
         }
     }
 
@@ -126,19 +153,18 @@ public class PlayerMovement : MonoBehaviour
     {
         if (player.playerControls.Player.Grapple.triggered)
         {
-            Debug.Log("grapple start");
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(player.playerControls.Player.Aim.ReadValue<Vector2>());
             mousePosition = new Vector3(mousePosition.x, mousePosition.y, 0);
-            Debug.Log("mouse pos: " + mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(grapplePoint.position, (mousePosition - grapplePoint.position).normalized, grappleRange, grappleAble);
             if (hit.collider != null)
             {
-                grappling = true;
+                stopGrappling = false;
+                startTime = Time.time;
+                length = Vector2.Distance(grapplePoint.position, grappleTargetPos);
                 grappleTargetPos = hit.point;
                 Debug.DrawLine(grapplePoint.position, hit.point, Color.green, 1);
                 rb.gravityScale = 0;
                 initialDistance = Vector2.Distance(grappleTargetPos, grapplePoint.position);
-                Debug.Log(initialDistance);
             }
             else
             {
@@ -149,10 +175,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void StopGrappling()
     {
-        Debug.Log("grapple stop");
         grappling = false;
+        stopGrappling = true;
         rb.gravityScale = 1f;
         rb.sharedMaterial = physicMaterials[0];
+        startTime = Time.time;
     }
 
     private void Movement()
