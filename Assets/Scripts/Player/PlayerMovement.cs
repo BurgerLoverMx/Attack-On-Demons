@@ -58,19 +58,10 @@ public class PlayerMovement : MonoBehaviour
         Jump();
         BetterJump();
         StartGrapple(); 
-        
-        if (grappling)
-        {
-            grappleLine.enabled = true;
-            Grappling();
-        }
-        else
-        {
-            grappleLine.enabled = false;
-        }
+
     }
 
-    /*private void FixedUpdate()
+    private void FixedUpdate()
     {
         if (grappling)
         {
@@ -81,7 +72,7 @@ public class PlayerMovement : MonoBehaviour
         {
             grappleLine.enabled = false;
         }
-    }*/
+    }
 
 
     private void Grappling()
