@@ -22,8 +22,13 @@ public class Grapple : MonoBehaviour
     [SerializeField]
     private float launchSpeed = 1f;
 
+    [SerializeField]
+    private float speed = 10f;
+
     [HideInInspector]
     public bool grappling = false;
+
+    private float length;
 
     void Start()
     {
@@ -33,7 +38,13 @@ public class Grapple : MonoBehaviour
 
     void Update()
     {
-
+        if (grappling)
+        {
+            if (springJoint.distance > 1)
+            {
+                springJoint.distance -= Time.deltaTime * speed;
+            }
+        }
     }
 
     public void SetGrapplePoint(Vector3 mousePosition)
@@ -46,6 +57,7 @@ public class Grapple : MonoBehaviour
             {
                 grappleTargetPos = hit.point;
                 grappleRope.enabled = true;
+                length = Vector2.Distance(firePoint.position, grappleTargetPos);
             }
             else
             {
@@ -64,8 +76,8 @@ public class Grapple : MonoBehaviour
     public void StartGrapple()
     {
         springJoint.connectedAnchor = grappleTargetPos;
-        springJoint.distance = 1;
-        springJoint.frequency = launchSpeed;
+        springJoint.distance = length;
+        springJoint.frequency = 1000000;
         springJoint.enabled = true;
         grappling = true;
     }
