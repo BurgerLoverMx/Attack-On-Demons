@@ -9,7 +9,7 @@ public class GrappleRope : MonoBehaviour
 
     private LineRenderer line;
 
-    private bool isGrappling = false;
+    public bool isGrappling = false;
     private void Awake()
     {
         line = GetComponent<LineRenderer>();
@@ -25,6 +25,7 @@ public class GrappleRope : MonoBehaviour
     private void OnDisable()
     {
         line.enabled = false;
+        isGrappling = false;
     }
 
     private void ResetPositons()

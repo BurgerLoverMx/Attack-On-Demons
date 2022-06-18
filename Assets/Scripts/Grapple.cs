@@ -29,23 +29,7 @@ public class Grapple : MonoBehaviour
 
     void Update()
     {
-        if (grappling)
-        {
-            RotateGun(grappleTargetPos);
-        }
-        else
-        {
-            RotateGun(PlayerBase.Instance.playerControls.Player.Aim.ReadValue<Vector2>());
-        }
-    }
 
-    public void RotateGun(Vector3 lookPoint)
-    {
-        Vector3 distanceVector = lookPoint - gameObject.transform.position;
-
-        float angle = Mathf.Atan2(distanceVector.y, distanceVector.x) * Mathf.Rad2Deg;
-
-        gameObject.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
 
     public void SetGrapplePoint(Vector3 mousePosition)
