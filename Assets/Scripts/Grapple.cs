@@ -7,6 +7,9 @@ public class Grapple : MonoBehaviour
     public Transform firePoint;
     public Vector2 grappleTargetPos;
 
+    public Vector2 grappleDirection;
+    public float grappleMaxDistance;
+
     [SerializeField]
     private GrappleRope grappleRope;
 
@@ -19,7 +22,8 @@ public class Grapple : MonoBehaviour
     [SerializeField]
     private float launchSpeed = 1f;
 
-    private bool grappling = false;
+    [HideInInspector]
+    public bool grappling = false;
 
     void Start()
     {
@@ -34,23 +38,27 @@ public class Grapple : MonoBehaviour
 
     public void SetGrapplePoint(Vector3 mousePosition)
     {
-        RaycastHit2D hit = Physics2D.Raycast(firePoint.position, (mousePosition - firePoint.position).normalized, 50, grappleAble);
-        if (hit.collider != null)
+        if (!grappleRope.enabled)
         {
-            grappleTargetPos = hit.point;
-            grappleRope.enabled = true;
-        }
-        else
-        {
-            Debug.DrawRay(firePoint.position, Vector2.right, Color.red, 1);
+            Vector2 direction = (mousePosition - firePoint.position).normalized;
+            RaycastHit2D hit = Physics2D.Raycast(firePoint.position, direction, 50, grappleAble);
+            if (hit.collider != null)
+            {
+                grappleTargetPos = hit.point;
+                grappleRope.enabled = true;
+            }
+            else
+            {
+                Debug.DrawRay(firePoint.position, Vector2.right, Color.red, 1);
+            }
         }
     }
 
     public void StopGrappling()
     {
         grappling = false;
-        grappleRope.enabled = false;
         springJoint.enabled = false;
+        grappleRope.StopGrappling();
     }
 
     public void StartGrapple()

@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
     private PlayerBase player;
 
     [SerializeField]
-    private float moveSpeed = 10f, jumpForce = 5f, grappleRange = 50, minGrappleSpeed = 5, maxGrappleSpeed = 50, grappleDistanceUntilMaxSpeed = 10;
+    private float moveSpeed = 10f, jumpForce = 5f;
 
     private Animator playerAnimator;
 
@@ -18,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
     private CameraFollow cameraFollow;
 
     // Jump
-    private bool isGrounded = false, grappling = false;
+    private bool isGrounded = false;
     public float rememberGroundedFor;
     private float lastTimeGrounded;
     public Transform isGroundedChecker;
@@ -31,10 +31,11 @@ public class PlayerMovement : MonoBehaviour
     // Grapple
     [SerializeField]
     private Grapple grapple;
-
     public Transform grapplePoint;
     private Vector3 grappleTargetPos;
     private LineRenderer grappleLine;
+
+    private bool grappling = false;
     
     void Start()
     {
@@ -55,53 +56,6 @@ public class PlayerMovement : MonoBehaviour
         StartGrapple(); 
     }
 
-    /*private void FixedUpdate()
-    {
-        if (grappling)
-        {
-            grappleLine.enabled = true;
-            Grappling();
-        }
-        else
-        {
-            //grappleLine.enabled = false;
-        }
-    }
-
-
-    private void Grappling()
-    {
-        if(grappleTargetPos != null)
-        {
-            Debug.Log(grappleTargetPos);
-            Debug.Log("target pos: " + grappleTargetPos + ", grapple point: " + grapplePoint.position);
-            Vector2 direction = (grappleTargetPos - grapplePoint.position).normalized;
-            Debug.DrawLine(grapplePoint.position, grappleTargetPos, Color.green, 1);
-            Vector3 distance = grappleTargetPos - grapplePoint.position;
-            float sqrLength = distance.sqrMagnitude;
-            sqrLength /= grappleDistanceUntilMaxSpeed;
-            if(sqrLength < 1)
-            {
-                sqrLength = 1;
-            }
-
-            float force = 1 / sqrLength;
-
-            float grappleForce = Mathf.Lerp(minGrappleSpeed, maxGrappleSpeed, force);
-            rb.AddForce(direction * grappleForce, ForceMode2D.Force);
-
-            //Render line
-            grappleLine.SetPosition(0, grapplePoint.position);
-            grappleLine.SetPosition(1, grappleTargetPos);
-        }
-        else
-        {
-            Debug.Log("grapple stop");
-            grappling = false;
-        }
-    }
-    */
-
     private void StartGrapple()
     {
         if (player.playerControls.Player.Grapple.triggered)
@@ -115,15 +69,17 @@ public class PlayerMovement : MonoBehaviour
     private void StopGrappling()
     {
         grapple.StopGrappling();
-        //grappling = false;
     }
 
     private void Movement()
     {
         float moveInput = player.playerControls.Player.MoveLeftRight.ReadValue<float>();
 
-        rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
-
+        if (!grapple.grappling)
+        {
+            rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
+        }
+        
         //TBD
         /*
         if (moveInput > 0)

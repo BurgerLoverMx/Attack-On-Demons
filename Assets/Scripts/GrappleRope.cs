@@ -6,19 +6,27 @@ public class GrappleRope : MonoBehaviour
 {
     [SerializeField]
     private Grapple grapple;
-
     private LineRenderer line;
+    private bool isGrappling = false;
+    public bool stopGrappling = false;
 
-    public bool isGrappling = false;
+    private float length, startTime;
+
+    private float speed = 30f;
+
     private void Awake()
     {
         line = GetComponent<LineRenderer>();
         line.enabled = false;
+        line.positionCount = 2;
     }
 
     private void OnEnable()
     {
+        stopGrappling = false;
         line.enabled = true;
+        length = Vector2.Distance(grapple.firePoint.position, grapple.grappleTargetPos);
+        startTime = Time.time;
         ResetPositons();
     }
 
@@ -37,18 +45,43 @@ public class GrappleRope : MonoBehaviour
     }
     void Update()
     {
-        DrawRopeNoWaves();
+        line.SetPosition(0, grapple.firePoint.position);
+        if (!isGrappling && !stopGrappling)
+        {
+            DrawRopeNoWaves();
+        }
+        if (stopGrappling)
+        {
+            PullRopeBack();
+        }
     }
 
     void DrawRopeNoWaves() 
     {
-        line.positionCount = 2;
-        line.SetPosition(0, grapple.firePoint.position);
-        line.SetPosition(1, grapple.grappleTargetPos);
-        if (!isGrappling)
+        float distCovered = ((Time.time - startTime) * speed) / length;
+        Vector2 position = Vector2.Lerp(grapple.firePoint.position, grapple.grappleTargetPos, distCovered);
+        line.SetPosition(1, position);
+        if (!isGrappling && line.GetPosition(1).Equals(grapple.grappleTargetPos))
         {
             isGrappling = true;
             grapple.StartGrapple();
         }
+    }
+
+    void PullRopeBack()
+    {
+        float distCovered = ((Time.time - startTime) * speed) / length;
+        Vector2 position = Vector2.Lerp(line.GetPosition(1), grapple.firePoint.position, distCovered);
+        line.SetPosition(1, position);
+        if (line.GetPosition(1).Equals(grapple.firePoint.position))
+        {
+            this.enabled = false;
+        }
+    }
+
+    public void StopGrappling()
+    {
+        stopGrappling = true;
+        startTime = Time.time;
     }
 }
