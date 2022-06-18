@@ -34,7 +34,7 @@ public class PlayerMovement : MonoBehaviour
     private LineRenderer grappleLine;
 
     [SerializeField]
-    private float minDistanceToSwapMaterial = 3.0f, multiplierToSwapMaterial = 0.25f;
+    private float minDistanceToSwapMaterial = 3.0f, multiplierToSwapMaterial = 0.25f, maxVelocity = 20;
 
     private float initialDistance;
 
@@ -57,8 +57,15 @@ public class PlayerMovement : MonoBehaviour
         CheckIfGrounded();
         Jump();
         BetterJump();
-        StartGrapple(); 
+        StartGrapple();
+        CheckVelocity();
+    }
 
+
+    private void CheckVelocity()
+    {
+        Mathf.Clamp(rb.velocity.x, -maxVelocity, maxVelocity);
+        Mathf.Clamp(rb.velocity.y, -maxVelocity, maxVelocity);
     }
 
     private void FixedUpdate()
@@ -80,13 +87,14 @@ public class PlayerMovement : MonoBehaviour
         if(grappleTargetPos != null)
         {
             Vector3 distance = grappleTargetPos - grapplePoint.position;
-            if (!rb.sharedMaterial.Equals(physicMaterials[1]))
+            if (initialDistance < minDistanceToSwapMaterial ||
+                distance.sqrMagnitude < initialDistance * initialDistance * multiplierToSwapMaterial)
             {
-                if (initialDistance < minDistanceToSwapMaterial ||
-                    distance.sqrMagnitude < initialDistance * initialDistance * multiplierToSwapMaterial)
-                {
-                    rb.sharedMaterial = physicMaterials[1];
-                }
+                rb.sharedMaterial = physicMaterials[1];
+            }
+            else
+            {
+                rb.sharedMaterial = physicMaterials[0];
             }
 
             Vector2 direction = (grappleTargetPos - grapplePoint.position).normalized;
