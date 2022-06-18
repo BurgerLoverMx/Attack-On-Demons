@@ -3129,8 +3129,8 @@ MonoBehaviour:
   moveSpeed: 10
   jumpForce: 7
   grappleRange: 50
-  minGrappleSpeed: 20
-  maxGrappleSpeed: 200
+  minGrappleSpeed: 40
+  maxGrappleSpeed: 40
   grappleDistanceUntilMaxSpeed: 20
   rememberGroundedFor: 0.1
   isGroundedChecker: {fileID: 982352672}
@@ -3144,6 +3144,10 @@ MonoBehaviour:
   fallMultiplier: 2.5
   lowJumpMultiplier: 2
   grapplePoint: {fileID: 1112599089}
+  distanceToStopGrapple: 1
+  physicMaterials:
+  - {fileID: 6200000, guid: a5ecaae7bde47044d989978c18f96eb8, type: 2}
+  - {fileID: 6200000, guid: 5cf82003ae23fc044b8c135068a1c2b0, type: 2}
 --- !u!114 &1792370888
 MonoBehaviour:
   m_ObjectHideFlags: 0
