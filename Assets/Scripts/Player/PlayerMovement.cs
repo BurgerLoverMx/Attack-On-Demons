@@ -33,11 +33,12 @@ public class PlayerMovement : MonoBehaviour
     private bool grappling = false;
     public Transform grapplePoint;
     private Vector3 grappleTargetPos;
+
     private LineRenderer grappleLine;
     private bool startGrappling = false, stopGrappling = false, validGrappleTarget;
 
     [SerializeField]
-    private float minDistanceToSwapMaterial = 3.0f, multiplierToSwapMaterial = 0.25f, grappleRange = 10, grappleSpeed = 40, grappleAnimationSpeed = 30;
+    private float minDistanceToSwapMaterial = 3.0f, multiplierToSwapMaterial = 0.25f, grappleRange = 10, grappleSpeed = 40, grappleAnimationSpeed = 30, checkGrappleHitRadius = 0.0001f;
 
     private float initialDistance, startTime, length;
 
@@ -95,19 +96,20 @@ public class PlayerMovement : MonoBehaviour
         float distCovered = ((Time.time - startTime) * grappleAnimationSpeed) / length;
         Vector2 position = Vector2.Lerp(grapplePoint.position, grappleTargetPos, distCovered);
         grappleLine.SetPosition(1, position);
-        if (!grappling && grappleLine.GetPosition(1).Equals(grappleTargetPos))
+
+        Collider2D collider = Physics2D.OverlapCircle(grappleLine.GetPosition(1), 0.05f, grappleAble);
+
+        if (collider != null)
         {
             startGrappling = false;
-            if (validGrappleTarget)
-            {
-                grappling = true;
-                rb.gravityScale = 0;
-                initialDistance = Vector2.Distance(grappleTargetPos, grapplePoint.position);
-            }
-            else
-            {
-                StopGrappling();
-            }
+            grappling = true;
+            rb.gravityScale = 0;
+            initialDistance = Vector2.Distance(grappleLine.GetPosition(1), grapplePoint.position);
+        }
+
+        if (grappleLine.GetPosition(1).Equals(grappleTargetPos))
+        { 
+            StopGrappling();
         }
     }
 
@@ -126,26 +128,18 @@ public class PlayerMovement : MonoBehaviour
 
     private void Grappling()
     {
-        if(grappleTargetPos != null)
+        Vector3 distance = grappleLine.GetPosition(1) - grapplePoint.position;
+        if (initialDistance < minDistanceToSwapMaterial ||
+            distance.sqrMagnitude < initialDistance * initialDistance * multiplierToSwapMaterial)
         {
-            Vector3 distance = grappleTargetPos - grapplePoint.position;
-            if (initialDistance < minDistanceToSwapMaterial ||
-                distance.sqrMagnitude < initialDistance * initialDistance * multiplierToSwapMaterial)
-            {
-                rb.sharedMaterial = physicMaterials[1];
-            }
-            else
-            {
-                rb.sharedMaterial = physicMaterials[0];
-            }
-            Vector2 direction = (grappleTargetPos - grapplePoint.position).normalized;
-            Debug.DrawLine(grapplePoint.position, grappleTargetPos, Color.green, 1);
-            rb.AddForce(direction * grappleSpeed, ForceMode2D.Force);
+            rb.sharedMaterial = physicMaterials[1];
         }
         else
         {
-            StopGrappling();
+            rb.sharedMaterial = physicMaterials[0];
         }
+        Vector2 direction = (grappleLine.GetPosition(1) - grapplePoint.position).normalized;
+        rb.AddForce(direction * grappleSpeed, ForceMode2D.Force);
     }
 
     private void StartGrapple()
@@ -156,26 +150,15 @@ public class PlayerMovement : MonoBehaviour
             mousePosition = new Vector3(mousePosition.x, mousePosition.y, 0);
             Vector3 direction = (mousePosition - grapplePoint.position).normalized;
             direction.z = 0;
-            RaycastHit2D hit = Physics2D.Raycast(grapplePoint.position, direction, grappleRange, grappleAble);
 
             grappleLine.enabled = true;
             grappleLine.SetPosition(0, grapplePoint.position);
             grappleLine.SetPosition(1, grapplePoint.position);
             startGrappling = true;
             stopGrappling = false;
-
-            if (hit.collider != null)
-            {
-                validGrappleTarget = true;
-                length = Vector2.Distance(grapplePoint.position, grappleTargetPos);
-                grappleTargetPos = hit.point;
-            }
-            else
-            {
-                validGrappleTarget = false;
-                length = grappleRange;
-                grappleTargetPos = grapplePoint.position + (direction * grappleRange);
-            }
+            
+            length = grappleRange;
+            grappleTargetPos = grapplePoint.position + (direction * grappleRange);
 
             startTime = Time.time;
         }
