@@ -32,7 +32,7 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask grappleAble;
     private bool grappling = false;
     public Transform grapplePoint;
-    private Vector3 grappleTargetPos;
+    private Vector3 grappleTargetPos, grappleTargetDirection;
 
     private LineRenderer grappleLine;
     private bool startGrappling = false, stopGrappling = false, validGrappleTarget;
@@ -97,10 +97,11 @@ public class PlayerMovement : MonoBehaviour
         Vector2 position = Vector2.Lerp(grapplePoint.position, grappleTargetPos, distCovered);
         grappleLine.SetPosition(1, position);
 
-        Collider2D collider = Physics2D.OverlapCircle(grappleLine.GetPosition(1), 0.05f, grappleAble);
+        RaycastHit2D hit = Physics2D.Raycast(grappleLine.GetPosition(1), grappleTargetDirection, checkGrappleHitRadius, grappleAble);
 
-        if (collider != null)
+        if (hit.collider != null)
         {
+            grappleLine.SetPosition(1, hit.point);
             startGrappling = false;
             grappling = true;
             rb.gravityScale = 0;
@@ -150,6 +151,7 @@ public class PlayerMovement : MonoBehaviour
             mousePosition = new Vector3(mousePosition.x, mousePosition.y, 0);
             Vector3 direction = (mousePosition - grapplePoint.position).normalized;
             direction.z = 0;
+            grappleTargetDirection = direction;
 
             grappleLine.enabled = true;
             grappleLine.SetPosition(0, grapplePoint.position);
