@@ -8,7 +8,7 @@ public class FPSDisplay : MonoBehaviour
     [SerializeField]
     public TextMeshProUGUI fpsText;
 
-    private float pollingTime = 1f;
+    private float pollingTime = 0.2f;
     private float time;
     private int frameCount;
 

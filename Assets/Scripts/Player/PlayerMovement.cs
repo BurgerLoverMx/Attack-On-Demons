@@ -34,8 +34,11 @@ public class PlayerMovement : MonoBehaviour
     public Transform grapplePoint;
     private Vector3 grappleTargetPos, grappleTargetDirection;
 
+    private GameObject grappleTargetObject;
+    private Vector3 grappleTargetObjectLastPosition = Vector3.zero;
+
     private LineRenderer grappleLine;
-    private bool startGrappling = false, stopGrappling = false, validGrappleTarget;
+    private bool startGrappling = false, stopGrappling = false;
 
     [SerializeField]
     private float minDistanceToSwapMaterial = 3.0f, multiplierToSwapMaterial = 0.25f, grappleRange = 10, grappleSpeed = 40, grappleAnimationSpeed = 30, checkGrappleHitRadius = 0.0001f;
@@ -64,14 +67,17 @@ public class PlayerMovement : MonoBehaviour
         BetterJump();
         StartGrapple();
 
-        grappleLine.SetPosition(0, grapplePoint.position);
-        if (startGrappling)
+        if (grappleLine.enabled)
         {
-            DrawRope();
-        }
-        if (stopGrappling)
-        {
-            PullRopeBack();
+            grappleLine.SetPosition(0, grapplePoint.position);
+            if (startGrappling)
+            {
+                DrawRope();
+            }
+            if (stopGrappling)
+            {
+                PullRopeBack();
+            }
         }
     }
 
@@ -93,14 +99,17 @@ public class PlayerMovement : MonoBehaviour
 
     private void DrawRope()
     {
+        Debug.Log("DrawRope");
         float distCovered = ((Time.time - startTime) * grappleAnimationSpeed) / length;
         Vector2 position = Vector2.Lerp(grapplePoint.position, grappleTargetPos, distCovered);
         grappleLine.SetPosition(1, position);
 
-        RaycastHit2D hit = Physics2D.Raycast(grappleLine.GetPosition(1), grappleTargetDirection, checkGrappleHitRadius, grappleAble);
+        Vector3 lineCastOrigin = grappleLine.GetPosition(1) - (grappleTargetDirection * checkGrappleHitRadius); 
+        RaycastHit2D hit = Physics2D.Linecast(lineCastOrigin, grappleLine.GetPosition(1), grappleAble);
 
         if (hit.collider != null)
         {
+            grappleTargetObject = hit.collider.gameObject;
             grappleLine.SetPosition(1, hit.point);
             startGrappling = false;
             grappling = true;
@@ -116,11 +125,13 @@ public class PlayerMovement : MonoBehaviour
 
     private void PullRopeBack()
     {
+        Debug.Log("PullRopeBack");
         float distCovered = ((Time.time - startTime) * grappleAnimationSpeed) / length;
         Vector2 position = Vector2.Lerp(grappleLine.GetPosition(1), grapplePoint.position, distCovered);
         grappleLine.SetPosition(1, position);
         if (grappleLine.GetPosition(1).Equals(grapplePoint.position))
         {
+            Debug.Log("RopeDone");
             grappleLine.enabled = false;
             stopGrappling = false;
         }
@@ -129,6 +140,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void Grappling()
     {
+        if (grappleTargetObject.tag == "Enemy")
+        {
+            if (grappleTargetObjectLastPosition != Vector3.zero)
+            {
+                Vector2 position = grappleLine.GetPosition(1) + (grappleTargetObject.transform.position - grappleTargetObjectLastPosition);
+                grappleLine.SetPosition(1, position);
+            }
+        }
         Vector3 distance = grappleLine.GetPosition(1) - grapplePoint.position;
         if (initialDistance < minDistanceToSwapMaterial ||
             distance.sqrMagnitude < initialDistance * initialDistance * multiplierToSwapMaterial)
@@ -141,12 +160,15 @@ public class PlayerMovement : MonoBehaviour
         }
         Vector2 direction = (grappleLine.GetPosition(1) - grapplePoint.position).normalized;
         rb.AddForce(direction * grappleSpeed, ForceMode2D.Force);
+
+        grappleTargetObjectLastPosition = grappleTargetObject.transform.position;
     }
 
     private void StartGrapple()
     {
         if (player.playerControls.Player.Grapple.triggered && !stopGrappling)
         {
+            Debug.Log("StartGrapple");
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(player.playerControls.Player.Aim.ReadValue<Vector2>());
             mousePosition = new Vector3(mousePosition.x, mousePosition.y, 0);
             Vector3 direction = (mousePosition - grapplePoint.position).normalized;
@@ -168,12 +190,16 @@ public class PlayerMovement : MonoBehaviour
 
     private void StopGrappling()
     {
-        grappling = false;
-        startGrappling = false;
-        stopGrappling = true;
-        rb.gravityScale = 1f;
-        rb.sharedMaterial = physicMaterials[0];
-        startTime = Time.time;
+        if (startGrappling || grappling)
+        {
+            grappling = false;
+            startGrappling = false;
+            stopGrappling = true;
+            rb.gravityScale = 1f;
+            rb.sharedMaterial = physicMaterials[0];
+            grappleTargetObjectLastPosition = Vector3.zero;
+            startTime = Time.time;
+        }
     }
 
     private void Movement()

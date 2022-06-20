@@ -3084,7 +3084,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0 FPS
+  m_text: -- FPS
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3397,7 +3397,7 @@ MonoBehaviour:
   grappleRange: 10
   grappleSpeed: 40
   grappleAnimationSpeed: 30
-  checkGrappleHitRadius: 0.1
+  checkGrappleHitRadius: 0.5
   physicMaterials:
   - {fileID: 6200000, guid: a5ecaae7bde47044d989978c18f96eb8, type: 2}
   - {fileID: 6200000, guid: 5cf82003ae23fc044b8c135068a1c2b0, type: 2}
@@ -3413,7 +3413,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bb435f2e827fde419ff40b0a533282d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 5
+  maxHealth: 50
   invulnTime: 0.12
   animator: {fileID: 1008035713}
 --- !u!114 &1792370889
@@ -3722,7 +3722,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2581454899867544158, guid: 586e12da88c10024ab49e271941152ef, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
