@@ -33,9 +33,18 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Shoot",
+                    "name": "ShootFirst",
                     "type": "Value",
                     "id": "a401eb31-5be2-4755-ad4e-003e75809b85",
+                    "expectedControlType": "Analog",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "ShootSecond",
+                    "type": "Value",
+                    "id": "d632f93d-94f9-4cb6-9017-f1a993b5a78e",
                     "expectedControlType": "Analog",
                     "processors": "",
                     "interactions": "",
@@ -45,6 +54,15 @@
                     "name": "Grapple",
                     "type": "Button",
                     "id": "20f09b45-6732-4fcb-80a9-148f19d2198b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SwitchWeapons",
+                    "type": "Button",
+                    "id": "bfa2df2e-4b46-46b9-88fa-988611dc4089",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -125,7 +143,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "Shoot",
+                    "action": "ShootFirst",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -137,6 +155,28 @@
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "Grapple",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "591428dd-8140-4d14-a677-4a70e98aeba2",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "ShootSecond",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "94bff071-3ff9-424d-ace4-101cea4db31f",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "SwitchWeapons",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

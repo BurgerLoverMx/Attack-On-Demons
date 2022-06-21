@@ -55,9 +55,18 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Shoot"",
+                    ""name"": ""ShootFirst"",
                     ""type"": ""Value"",
                     ""id"": ""a401eb31-5be2-4755-ad4e-003e75809b85"",
+                    ""expectedControlType"": ""Analog"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ShootSecond"",
+                    ""type"": ""Value"",
+                    ""id"": ""d632f93d-94f9-4cb6-9017-f1a993b5a78e"",
                     ""expectedControlType"": ""Analog"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -67,6 +76,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""name"": ""Grapple"",
                     ""type"": ""Button"",
                     ""id"": ""20f09b45-6732-4fcb-80a9-148f19d2198b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwitchWeapons"",
+                    ""type"": ""Button"",
+                    ""id"": ""bfa2df2e-4b46-46b9-88fa-988611dc4089"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -147,7 +165,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""Shoot"",
+                    ""action"": ""ShootFirst"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -159,6 +177,28 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
                     ""action"": ""Grapple"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""591428dd-8140-4d14-a677-4a70e98aeba2"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""ShootSecond"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""94bff071-3ff9-424d-ace4-101cea4db31f"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""SwitchWeapons"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -178,8 +218,10 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Player_MoveLeftRight = m_Player.FindAction("Move Left/Right", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
-        m_Player_Shoot = m_Player.FindAction("Shoot", throwIfNotFound: true);
+        m_Player_ShootFirst = m_Player.FindAction("ShootFirst", throwIfNotFound: true);
+        m_Player_ShootSecond = m_Player.FindAction("ShootSecond", throwIfNotFound: true);
         m_Player_Grapple = m_Player.FindAction("Grapple", throwIfNotFound: true);
+        m_Player_SwitchWeapons = m_Player.FindAction("SwitchWeapons", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -242,8 +284,10 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_MoveLeftRight;
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Aim;
-    private readonly InputAction m_Player_Shoot;
+    private readonly InputAction m_Player_ShootFirst;
+    private readonly InputAction m_Player_ShootSecond;
     private readonly InputAction m_Player_Grapple;
+    private readonly InputAction m_Player_SwitchWeapons;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -251,8 +295,10 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @MoveLeftRight => m_Wrapper.m_Player_MoveLeftRight;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Aim => m_Wrapper.m_Player_Aim;
-        public InputAction @Shoot => m_Wrapper.m_Player_Shoot;
+        public InputAction @ShootFirst => m_Wrapper.m_Player_ShootFirst;
+        public InputAction @ShootSecond => m_Wrapper.m_Player_ShootSecond;
         public InputAction @Grapple => m_Wrapper.m_Player_Grapple;
+        public InputAction @SwitchWeapons => m_Wrapper.m_Player_SwitchWeapons;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -271,12 +317,18 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Aim.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAim;
                 @Aim.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAim;
                 @Aim.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAim;
-                @Shoot.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShoot;
-                @Shoot.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShoot;
-                @Shoot.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShoot;
+                @ShootFirst.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShootFirst;
+                @ShootFirst.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShootFirst;
+                @ShootFirst.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShootFirst;
+                @ShootSecond.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShootSecond;
+                @ShootSecond.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShootSecond;
+                @ShootSecond.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShootSecond;
                 @Grapple.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGrapple;
                 @Grapple.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGrapple;
                 @Grapple.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGrapple;
+                @SwitchWeapons.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchWeapons;
+                @SwitchWeapons.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchWeapons;
+                @SwitchWeapons.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchWeapons;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -290,12 +342,18 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Aim.started += instance.OnAim;
                 @Aim.performed += instance.OnAim;
                 @Aim.canceled += instance.OnAim;
-                @Shoot.started += instance.OnShoot;
-                @Shoot.performed += instance.OnShoot;
-                @Shoot.canceled += instance.OnShoot;
+                @ShootFirst.started += instance.OnShootFirst;
+                @ShootFirst.performed += instance.OnShootFirst;
+                @ShootFirst.canceled += instance.OnShootFirst;
+                @ShootSecond.started += instance.OnShootSecond;
+                @ShootSecond.performed += instance.OnShootSecond;
+                @ShootSecond.canceled += instance.OnShootSecond;
                 @Grapple.started += instance.OnGrapple;
                 @Grapple.performed += instance.OnGrapple;
                 @Grapple.canceled += instance.OnGrapple;
+                @SwitchWeapons.started += instance.OnSwitchWeapons;
+                @SwitchWeapons.performed += instance.OnSwitchWeapons;
+                @SwitchWeapons.canceled += instance.OnSwitchWeapons;
             }
         }
     }
@@ -314,7 +372,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnMoveLeftRight(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
-        void OnShoot(InputAction.CallbackContext context);
+        void OnShootFirst(InputAction.CallbackContext context);
+        void OnShootSecond(InputAction.CallbackContext context);
         void OnGrapple(InputAction.CallbackContext context);
+        void OnSwitchWeapons(InputAction.CallbackContext context);
     }
 }

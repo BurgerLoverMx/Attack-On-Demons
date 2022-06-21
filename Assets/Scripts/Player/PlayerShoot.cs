@@ -10,12 +10,27 @@ public class PlayerShoot : MonoBehaviour
     private CameraFollow cameraFollow;
 
     [SerializeField]
-    private GameObject weapon;
+    private GameObject[] weapons;
+
+    [SerializeField]
+    private Transform[] weaponPositions;
+
+    [SerializeField]
+    private Transform weaponPivot;
 
     void Start()
     {
         player = PlayerBase.Instance;
+        player.playerShoot = this;
         cameraFollow = Camera.main.GetComponent<CameraFollow>();
+
+        for (int i = 0; i <  weapons.Length; i++)
+        {
+            if (weaponPositions[i].childCount > 0)
+            {
+                weapons[i] = weaponPositions[i].GetChild(0).gameObject;
+            }
+        }
     }
 
 
@@ -23,6 +38,7 @@ public class PlayerShoot : MonoBehaviour
     {
         Aim();
         Shoot();
+        SwitchWeapons();
     }
 
     private void Aim()
@@ -34,25 +50,37 @@ public class PlayerShoot : MonoBehaviour
         float angle = Mathf.Atan2(offset.y, offset.x) * Mathf.Rad2Deg;
         if (mousePosition.x < screenPoint.x)
         {
-            weapon.transform.localRotation = Quaternion.Euler(180, 0, 0);
+            foreach (GameObject weapon in weapons)
+            {
+                if (weapon != null)
+                {
+                    weapon.transform.localRotation = Quaternion.Euler(180, 0, 0);
 
-            weapon.transform.localPosition = new Vector3(weapon.transform.localPosition.x,
-             Mathf.Abs(weapon.transform.localPosition.y),
-             weapon.transform.localPosition.z);
+                    weapon.transform.localPosition = new Vector3(weapon.transform.localPosition.x,
+                     Mathf.Abs(weapon.transform.localPosition.y),
+                     weapon.transform.localPosition.z);
+                }
+            }
 
             transform.rotation = Quaternion.Euler(0, 180, 0);
         }
         else
         {
-            weapon.transform.localRotation = Quaternion.Euler(0, 0, 0);
-            
-            weapon.transform.localPosition = new Vector3(weapon.transform.localPosition.x,
-             -Mathf.Abs(weapon.transform.localPosition.y),
-             weapon.transform.localPosition.z);
+            foreach (GameObject weapon in weapons)
+            {
+                if (weapon != null)
+                {
+                    weapon.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                    
+                    weapon.transform.localPosition = new Vector3(weapon.transform.localPosition.x,
+                     -Mathf.Abs(weapon.transform.localPosition.y),
+                     weapon.transform.localPosition.z);
+                }
+            }
 
             transform.rotation = Quaternion.Euler(0, 0, 0);
         }
-        weapon.transform.parent.rotation = Quaternion.Euler(0f, 0f, angle);
+        weaponPivot.rotation = Quaternion.Euler(0f, 0f, angle);
 
         //Move camera towards mouse
         mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
@@ -62,12 +90,77 @@ public class PlayerShoot : MonoBehaviour
 
     private void Shoot()
     {
-        if (player.playerControls.Player.Shoot.ReadValue<float>() > 0)
+        if (player.playerControls.Player.ShootFirst.ReadValue<float>() > 0)
         {
-            if (weapon != null)
+            if (weapons[0] != null)
             {
-                weapon.GetComponent<Weapon>().Attack();
+                weapons[0].GetComponent<Weapon>().Attack();
             }
         }
+        if (player.playerControls.Player.ShootSecond.ReadValue<float>() > 0)
+        {
+            if (weapons[1] != null)
+            {
+                weapons[1].GetComponent<Weapon>().Attack();
+            }
+        }
+    }
+
+    public void SwitchWeapons()
+    {
+        if (player.playerControls.Player.SwitchWeapons.triggered)
+        {
+            GameObject firstWeapon = weapons[0];
+            weapons[0] = weapons[1];
+            weapons[1] = firstWeapon;
+
+            int nullWeaponIndex = -1;
+            for (int i = 0; i < weapons.Length; i++)
+            {
+                if (weapons[i] == null)
+                {
+                    if (nullWeaponIndex == -1)
+                    {
+                        nullWeaponIndex = i;
+                    }
+                    else
+                    {
+                        Debug.Log("No weapons");
+                        return;
+                    }
+                }
+            }
+
+            if (nullWeaponIndex != 0)
+            {
+                weapons[0].GetComponentInChildren<SpriteRenderer>().sortingOrder = 1;
+                weapons[0].transform.SetParent(weaponPositions[0], false);
+            }
+            if (nullWeaponIndex != 1)
+            {
+                weapons[1].GetComponentInChildren<SpriteRenderer>().sortingOrder = 2;
+                weapons[1].transform.SetParent(weaponPositions[1], false);
+            }
+        }
+    }
+
+    public bool PickupWeapon(GameObject newWeapon)
+    {
+        for (int i = 0; i < weapons.Length; i++)
+        {
+            if (weapons[i] == null)
+            {
+                GameObject weapon = Instantiate(newWeapon, weaponPositions[i]);
+                weapons[i] = weapon;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public GameObject GetWeapon(int index)
+    {
+        return weapons[index];
     }
 }

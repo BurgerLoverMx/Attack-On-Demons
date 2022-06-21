@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerBase : MonoBehaviour
 {
     public static PlayerBase Instance;
+    public PlayerShoot playerShoot;
     public PlayerControls playerControls;
     public float maxHealth = 5, invulnTime = .12f;
     private float currentHealth;
