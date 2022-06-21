@@ -4658,7 +4658,7 @@ MonoBehaviour:
   maxVelocity: 15
   groundLayer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 264
   isGroundedChecker: {fileID: 5241050975835448981}
   jumpForce: 7
   checkGroundRadius: 0.05
@@ -4751,7 +4751,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bb435f2e827fde419ff40b0a533282d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerShoot: {fileID: 0}
+  playerShoot: {fileID: 5241050977174949244}
   maxHealth: 50
   invulnTime: 0.12
   animator: {fileID: 5241050975946015284}

@@ -21,7 +21,6 @@ public class PlayerShoot : MonoBehaviour
     void Start()
     {
         player = PlayerBase.Instance;
-        player.playerShoot = this;
         cameraFollow = Camera.main.GetComponent<CameraFollow>();
 
         for (int i = 0; i <  weapons.Length; i++)

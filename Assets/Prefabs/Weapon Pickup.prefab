@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1916200866}
   - component: {fileID: 1916200868}
   - component: {fileID: 1916200867}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -116,7 +116,7 @@ GameObject:
   - component: {fileID: 586108439093263318}
   - component: {fileID: 586108439093263317}
   - component: {fileID: 586108439093263319}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Weapon Pickup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -137,7 +137,7 @@ Transform:
   m_Children:
   - {fileID: 1916200866}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &586108439093263317
 MonoBehaviour:
