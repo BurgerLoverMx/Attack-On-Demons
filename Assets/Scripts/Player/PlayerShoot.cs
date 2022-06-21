@@ -125,7 +125,7 @@ public class PlayerShoot : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log("No weapons");
+                        //No weapons to switch
                         return;
                     }
                 }

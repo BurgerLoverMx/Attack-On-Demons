@@ -217,6 +217,11 @@ public class PlayerMovement : MonoBehaviour
         {
             if (grappleTargetObject.tag == "Enemy")
             {
+                if (grappleTargetObject.GetComponent<Enemy>().enabled == false)
+                {
+                    grappleTargetObject = null;
+                    return;
+                }
                 if (grappleTargetObjectLastPosition != Vector3.zero)
                 {
                     Vector2 position = grappleLine.GetPosition(1) + (grappleTargetObject.transform.position - grappleTargetObjectLastPosition);
