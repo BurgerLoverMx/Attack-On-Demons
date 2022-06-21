@@ -96,7 +96,7 @@ Animator:
   m_GameObject: {fileID: 2581454899298691559}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 6b2d7acd84399264eba3fe79decd58b5, type: 2}
+  m_Controller: {fileID: 22100000, guid: 2fc25fdf874ca8e4abac99a5b38f5a5f, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -156,7 +156,7 @@ Transform:
   - {fileID: 2581454899298691576}
   - {fileID: 2581454900031991221}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &2581454899867544147
 BoxCollider2D:
