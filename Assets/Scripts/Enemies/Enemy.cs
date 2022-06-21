@@ -20,9 +20,16 @@ public abstract class Enemy : MonoBehaviour
         currentHealth = maxHealth;
         currentMovespeed = maxMovespeed;
         player = GameObject.FindGameObjectWithTag("Player");
+        //StartCoroutine(SetPlayerVar());
         //StartCoroutine(StartDeath());
     }
 
+
+    private IEnumerator SetPlayerVar()
+    {
+        yield return new WaitForSeconds(0.1f);
+        player = GameObject.FindGameObjectWithTag("Player");
+    }
     // Update is called once per frame
     void Update()
     {
@@ -65,22 +72,9 @@ public abstract class Enemy : MonoBehaviour
 
     public abstract void Move();
 
-    private void CheckIfAttack()
-    {
-        Vector3 distance = player.transform.position - transform.position;
-        float sqrLength = distance.sqrMagnitude;
-        if (sqrLength < attackRange * attackRange)
-        {
-            //in range
-            StartCoroutine(StartAttack());
-        }
-        else
-        {
-            //not in range
-        }
-    }
+    public abstract void CheckIfAttack();
 
-    private IEnumerator StartAttack()
+    protected IEnumerator StartAttack()
     {
         attacking = true;
         animator.SetTrigger("Attack");

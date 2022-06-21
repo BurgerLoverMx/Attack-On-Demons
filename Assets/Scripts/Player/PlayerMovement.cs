@@ -213,28 +213,36 @@ public class PlayerMovement : MonoBehaviour
 
     private void Grappling()
     {
-        if (grappleTargetObject.tag == "Enemy")
+        if(grappleTargetObject != null)
         {
-            if (grappleTargetObjectLastPosition != Vector3.zero)
+            if (grappleTargetObject.tag == "Enemy")
             {
-                Vector2 position = grappleLine.GetPosition(1) + (grappleTargetObject.transform.position - grappleTargetObjectLastPosition);
-                grappleLine.SetPosition(1, position);
+                if (grappleTargetObjectLastPosition != Vector3.zero)
+                {
+                    Vector2 position = grappleLine.GetPosition(1) + (grappleTargetObject.transform.position - grappleTargetObjectLastPosition);
+                    grappleLine.SetPosition(1, position);
+                }
             }
+            Vector3 distance = grappleLine.GetPosition(1) - grapplePoint.position;
+            if (initialDistance < minDistanceToSwapMaterial ||
+                distance.sqrMagnitude < initialDistance * initialDistance * multiplierToSwapMaterial)
+            {
+                rb.sharedMaterial = physicMaterials[1];
+            }
+            else
+            {
+                rb.sharedMaterial = physicMaterials[0];
+            }
+            Vector2 direction = (grappleLine.GetPosition(1) - grapplePoint.position).normalized;
+            rb.AddForce(direction * grappleSpeed, ForceMode2D.Force);
+
+            grappleTargetObjectLastPosition = grappleTargetObject.transform.position;
         }
-        Vector3 distance = grappleLine.GetPosition(1) - grapplePoint.position;
-        if (initialDistance < minDistanceToSwapMaterial ||
-            distance.sqrMagnitude < initialDistance * initialDistance * multiplierToSwapMaterial)
-        {
-            rb.sharedMaterial = physicMaterials[1];
-        }
+
         else
         {
-            rb.sharedMaterial = physicMaterials[0];
+            StopGrappling();
         }
-        Vector2 direction = (grappleLine.GetPosition(1) - grapplePoint.position).normalized;
-        rb.AddForce(direction * grappleSpeed, ForceMode2D.Force);
-
-        grappleTargetObjectLastPosition = grappleTargetObject.transform.position;
     }
 
     private void StartGrapple()

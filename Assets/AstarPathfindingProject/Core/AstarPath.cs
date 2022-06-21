@@ -832,9 +832,7 @@ public class AstarPath : VersionedMonoBehaviour {
 			if (logPathResults == PathLog.InGame) {
 				inGameDebugPath = debug;
 			} else if (path.error) {
-				Debug.LogWarning(debug);
 			} else {
-				Debug.Log(debug);
 			}
 		}
 	}
@@ -1223,8 +1221,7 @@ public class AstarPath : VersionedMonoBehaviour {
 		active = this;
 
 		if (FindObjectsOfType(typeof(AstarPath)).Length > 1) {
-			Debug.LogError("You should NOT have more than one AstarPath component in the scene at any time.\n" +
-				"This can cause serious errors since the AstarPath component builds around a singleton pattern.");
+
 		}
 
 		// Disable GUILayout to gain some performance, it is not used in the OnGUI call
@@ -1379,7 +1376,6 @@ public class AstarPath : VersionedMonoBehaviour {
 		if (!Application.isPlaying) return;
 
 		if (logPathResults == PathLog.Heavy)
-			Debug.Log("+++ AstarPath Component Destroyed - Cleaning Up Pathfinding Data +++");
 
 		if (active != this) return;
 
@@ -1397,7 +1393,6 @@ public class AstarPath : VersionedMonoBehaviour {
 		pathProcessor.queue.TerminateReceivers();
 
 		if (logPathResults == PathLog.Heavy)
-			Debug.Log("Processing Possible Work Items");
 
 		// Stop the graph update thread (if it is running)
 		graphUpdates.DisableMultithreading();

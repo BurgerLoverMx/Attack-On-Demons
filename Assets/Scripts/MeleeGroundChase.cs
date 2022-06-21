@@ -43,6 +43,21 @@ public class MeleeGroundChase : Enemy
         }
     }
 
+    public override void CheckIfAttack()
+    {
+        Vector3 distance = player.transform.position - transform.position;
+        float sqrLength = distance.sqrMagnitude;
+        if (sqrLength < attackRange * attackRange)
+        {
+            //in range
+            StartCoroutine(StartAttack());
+        }
+        else
+        {
+            //not in range
+        }
+    }
+
     private IEnumerator Jump()
     {
         jumping = true;

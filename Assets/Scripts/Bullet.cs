@@ -20,6 +20,10 @@ public class Bullet : MonoBehaviour
         {
             other.gameObject.GetComponent<Enemy>().StartCoroutine(other.gameObject.GetComponent<Enemy>().Hit(shotDamage));
         }
+        else if (other.gameObject.tag == "Player")
+        {
+            other.gameObject.GetComponent<PlayerBase>().StartCoroutine(other.gameObject.GetComponent<PlayerBase>().Hit(shotDamage));
+        }
         Destroy(gameObject);
     }
 
