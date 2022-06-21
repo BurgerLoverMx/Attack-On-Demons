@@ -1,11 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon : MonoBehaviour
+public class Ranged : Weapon
 {
     [SerializeField]
-    private float fireRate = 1f, reloadSpeed = 1.5f, shotSpread = 0f, shotDamage = 1f, shotSpeed = 1f;
+    private float fireRate = 1f, reloadSpeed = 1.5f, shotSpread = 0f, shotSpeed = 1f;
 
     [SerializeField]
     private int numAmmo, numProjectiles;
@@ -16,15 +15,12 @@ public class Weapon : MonoBehaviour
     [SerializeField]
     private Transform bulletSpawnPoint;
 
-    private Animator animator;
-
-    public int currentAmmo;
+    private int currentAmmo;
 
     private float fireRateTime = 0;
 
     void Start()
     {
-        animator = GetComponentInChildren<Animator>();
         currentAmmo = numAmmo;
     }
 
@@ -36,7 +32,7 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    public void Shoot()
+    public override void Attack()
     {
         if (fireRateTime > 0 || currentAmmo <= 0)
         {
@@ -73,7 +69,7 @@ public class Weapon : MonoBehaviour
             GameObject bulletClone = Instantiate(bulletPrefab, bulletSpawnPoint.position, transform.rotation * bulletRotation);
             Bullet bulletCloneScript = bulletClone.GetComponent<Bullet>();
             bulletCloneScript.shotSpeed = shotSpeed;
-            bulletCloneScript.shotDamage = shotDamage;
+            bulletCloneScript.shotDamage = damage;
             currentAmmo -= 1;
         }
 

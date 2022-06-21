@@ -66,7 +66,7 @@ public class PlayerShoot : MonoBehaviour
         {
             if (weapon != null)
             {
-                weapon.GetComponent<Weapon>().Shoot();
+                weapon.GetComponent<Weapon>().Attack();
             }
         }
     }
