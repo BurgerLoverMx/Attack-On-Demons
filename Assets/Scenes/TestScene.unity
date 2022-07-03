@@ -2317,6 +2317,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Crow (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 5043162274968526943, guid: 49c9aa79c9e9a2a4e8e546f960ebda6a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 49c9aa79c9e9a2a4e8e546f960ebda6a, type: 3}
@@ -3073,6 +3077,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Crow (10)
       objectReference: {fileID: 0}
+    - target: {fileID: 5043162274968526943, guid: 49c9aa79c9e9a2a4e8e546f960ebda6a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 49c9aa79c9e9a2a4e8e546f960ebda6a, type: 3}
@@ -3131,6 +3139,10 @@ PrefabInstance:
     - target: {fileID: 5043162274968526943, guid: 49c9aa79c9e9a2a4e8e546f960ebda6a, type: 3}
       propertyPath: m_Name
       value: Crow (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5043162274968526943, guid: 49c9aa79c9e9a2a4e8e546f960ebda6a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
@@ -3191,6 +3203,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Crow (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 5043162274968526943, guid: 49c9aa79c9e9a2a4e8e546f960ebda6a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 49c9aa79c9e9a2a4e8e546f960ebda6a, type: 3}
@@ -3249,6 +3265,10 @@ PrefabInstance:
     - target: {fileID: 5043162274968526943, guid: 49c9aa79c9e9a2a4e8e546f960ebda6a, type: 3}
       propertyPath: m_Name
       value: Crow (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5043162274968526943, guid: 49c9aa79c9e9a2a4e8e546f960ebda6a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
@@ -3341,6 +3361,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Crow (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 5043162274968526943, guid: 49c9aa79c9e9a2a4e8e546f960ebda6a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 49c9aa79c9e9a2a4e8e546f960ebda6a, type: 3}
@@ -3399,6 +3423,10 @@ PrefabInstance:
     - target: {fileID: 5043162274968526943, guid: 49c9aa79c9e9a2a4e8e546f960ebda6a, type: 3}
       propertyPath: m_Name
       value: Crow (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5043162274968526943, guid: 49c9aa79c9e9a2a4e8e546f960ebda6a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
@@ -3593,6 +3621,10 @@ PrefabInstance:
     - target: {fileID: 5043162274968526943, guid: 49c9aa79c9e9a2a4e8e546f960ebda6a, type: 3}
       propertyPath: m_Name
       value: Crow (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5043162274968526943, guid: 49c9aa79c9e9a2a4e8e546f960ebda6a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
@@ -3923,6 +3955,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Crow (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 5043162274968526943, guid: 49c9aa79c9e9a2a4e8e546f960ebda6a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 49c9aa79c9e9a2a4e8e546f960ebda6a, type: 3}
@@ -4101,6 +4137,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Crow (11)
       objectReference: {fileID: 0}
+    - target: {fileID: 5043162274968526943, guid: 49c9aa79c9e9a2a4e8e546f960ebda6a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 49c9aa79c9e9a2a4e8e546f960ebda6a, type: 3}
@@ -4159,6 +4199,10 @@ PrefabInstance:
     - target: {fileID: 5043162274968526943, guid: 49c9aa79c9e9a2a4e8e546f960ebda6a, type: 3}
       propertyPath: m_Name
       value: Crow (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5043162274968526943, guid: 49c9aa79c9e9a2a4e8e546f960ebda6a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
@@ -4328,6 +4372,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Crow
       objectReference: {fileID: 0}
+    - target: {fileID: 5043162274968526943, guid: 49c9aa79c9e9a2a4e8e546f960ebda6a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 49c9aa79c9e9a2a4e8e546f960ebda6a, type: 3}
@@ -4389,7 +4437,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2581454899867544158, guid: 586e12da88c10024ab49e271941152ef, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
@@ -4936,6 +4984,8 @@ MonoBehaviour:
   spriteRenderer: {fileID: 5505775003515936975}
   damage: 1
   animator: {fileID: 5505775003515936973}
+  attackRate: 0.5
+  attackSpeed: 0.5
 --- !u!1 &5505775003515936969
 GameObject:
   m_ObjectHideFlags: 0
@@ -4945,6 +4995,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5505775003515936974}
+  - component: {fileID: 5505775003515936977}
   - component: {fileID: 5505775003515936975}
   - component: {fileID: 5505775003515936973}
   - component: {fileID: 5505775003515936976}
@@ -5050,7 +5101,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5505775003515936969}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
@@ -5069,3 +5120,16 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.5833333, y: 2}
   m_EdgeRadius: 0
+--- !u!114 &5505775003515936977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5505775003515936969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a0c940724308164e9236f3356f0087a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0

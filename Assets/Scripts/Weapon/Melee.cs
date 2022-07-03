@@ -4,20 +4,38 @@ using UnityEngine;
 
 public class Melee : Weapon
 {
-    // Start is called before the first frame update
+    [SerializeField]
+    private float attackRate = 1f, attackSpeed = 1f;
+
+    private float attackRateTime = 0;
+
+    private MeleeAttack meleeAttackScript;
+
     void Start()
     {
-        
+        meleeAttackScript = GetComponentInChildren<MeleeAttack>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if (attackRateTime >= 0)
+        {
+            attackRateTime -= Time.deltaTime;
+        }
     }
 
     public override void Attack()
     {
-        throw new System.NotImplementedException();
+        if (attackRateTime > 0)
+        {
+            return;
+        }
+
+        animator.speed = 1 / attackSpeed;
+        animator.SetTrigger("Attack");
+
+        meleeAttackScript.damage = damage;
+
+        attackRateTime = attackRate;
     }
 }
