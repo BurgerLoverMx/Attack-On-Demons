@@ -53,8 +53,8 @@ public abstract class Enemy : MonoBehaviour
             {
                 StartCoroutine(Die());
             }
-            GetComponentInChildren<SpriteRenderer>().color = new Color(255, 0, 0, .65f);
-            yield return new WaitForSeconds(0.08f);
+            GetComponentInChildren<SpriteRenderer>().color = new Color(255, 0, 0, .75f);
+            yield return new WaitForSeconds(0.12f);
             GetComponentInChildren<SpriteRenderer>().color = new Color(255, 255, 255, 1);
         }
     }
@@ -64,7 +64,14 @@ public abstract class Enemy : MonoBehaviour
         dying = true;
         animator.SetTrigger("Die");
         this.enabled = false;
-        gameObject.GetComponent<BoxCollider2D>().enabled = false;
+        foreach (BoxCollider2D collider in gameObject.GetComponents<BoxCollider2D>())
+        {
+            collider.enabled = false;
+        }
+        foreach (CircleCollider2D collider in gameObject.GetComponents<CircleCollider2D>())
+        {
+            collider.enabled = false;
+        }
         rb.bodyType = RigidbodyType2D.Static;
         yield return new WaitForSeconds(5);
         Destroy(gameObject);

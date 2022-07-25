@@ -114,10 +114,10 @@ public class PlayerMovement : MonoBehaviour
     private void Movement()
     {
         float moveInput = player.playerControls.Player.MoveLeftRight.ReadValue<float>();
-
         if (!grappling)
         {
             rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
+            //playerAnimator.SetBool("Move", rb.velocity.x != 0);
         }
     }
 
