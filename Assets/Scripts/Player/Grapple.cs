@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(LineRenderer))]
 public class Grapple : MonoBehaviour
 {
     private PlayerBase player;
@@ -22,7 +23,7 @@ public class Grapple : MonoBehaviour
     private float minDistanceToSwapMaterial = 3.0f, multiplierToSwapMaterial = 0.25f, checkGrappleHitRadius = 0.0001f;
 
     private bool grappling = false;
-    private Vector3 grappleTargetPos, grappleTargetDirection;
+    public Vector3 grappleTargetPos, grappleTargetDirection;
     private GameObject grappleTargetObject;
     private Vector3 grappleTargetObjectLastPosition = Vector3.zero;
     private LineRenderer grappleLine;
@@ -42,10 +43,9 @@ public class Grapple : MonoBehaviour
     void Update()
     {
         StartGrapple();
-
         if (grappleLine.enabled)
         {
-            grappleLine.SetPosition(0, grapplePoint.position);
+            grappleLine.SetPosition(0, new Vector2(grapplePoint.position.x, grapplePoint.position.y));
             if (startGrappling)
             {
                 DrawRope();
@@ -96,7 +96,7 @@ public class Grapple : MonoBehaviour
         float distCovered = ((Time.time - startTime) * grappleAnimationSpeed) / length;
         Vector2 position = Vector2.Lerp(grappleLine.GetPosition(1), grapplePoint.position, distCovered);
         grappleLine.SetPosition(1, position);
-        if (grappleLine.GetPosition(1).Equals(grapplePoint.position))
+        if (grappleLine.GetPosition(1).Equals(grappleLine.GetPosition(0)))
         {
             grappleLine.enabled = false;
             stopGrappling = false;
@@ -148,10 +148,9 @@ public class Grapple : MonoBehaviour
         if (player.playerControls.Player.Grapple.triggered && !stopGrappling)
         {
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(player.playerControls.Player.Aim.ReadValue<Vector2>());
-            Debug.Log(mousePosition);
             mousePosition = new Vector3(mousePosition.x, mousePosition.y, 0);
             Vector3 direction = (mousePosition - grapplePoint.position).normalized;
-            direction.z = 0;
+            direction.z = 0f;
             grappleTargetDirection = direction;
 
             grappleLine.enabled = true;
@@ -161,7 +160,9 @@ public class Grapple : MonoBehaviour
             stopGrappling = false;
             
             length = grappleRange;
-            grappleTargetPos = grapplePoint.position + (direction * grappleRange);
+            Vector3 directionTimesRange = (direction * grappleRange);
+            grappleTargetPos = grapplePoint.position + directionTimesRange;
+            grappleTargetPos.z = 0;
 
             startTime = Time.time;
         }
